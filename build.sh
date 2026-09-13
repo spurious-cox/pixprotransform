@@ -58,8 +58,8 @@ d.update({
     "CFBundleName": "PixProTransform",
     "CFBundleDisplayName": "PixProTransform",
     "CFBundleIdentifier": "com.timmccoy.pixprotransform",
-    "CFBundleShortVersionString": "1.2.1",
-    "CFBundleVersion": "1.2.1",
+    "CFBundleShortVersionString": "1.3.0",
+    "CFBundleVersion": "1.3.0",
     "NSHumanReadableCopyright": "Copyright © 2026 Tim McCoy. All rights reserved.",
     "CFBundleGetInfoString":
         "PixProTransform — opens Pixelmator Pro's Perspective Transform in one step.",

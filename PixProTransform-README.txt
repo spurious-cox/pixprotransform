@@ -153,7 +153,7 @@ v1.2.0  (2026-08-15)
     process being driven.
 
 
-v1.2.1  (2026-09-13)  — current
+v1.2.1  (2026-09-13)
     Documentation release; no change to the effect. Adds a HOW TO USE IT
     section — numbered steps from selecting the layer, through every dialog
     field and its units, to what the result group contains — and fills in a
@@ -165,6 +165,21 @@ v1.2.1  (2026-09-13)  — current
     only in the project folder. build.sh, which restores the bundle identity
     on every rebuild, still wrote version 1.1.0 over a 1.2.0 build; it now
     carries the real version.
+
+
+v1.3.0  (2026-09-13)  — current
+    Checks for a newer release. The app asks GitHub for the newest published
+    tag and, when this build is behind, says so in a notification after the
+    effect opens; nothing is shown when it is current. This app has no dialog
+    of its own to carry the notice, which is why it is a notification here and
+    a line in the prompt elsewhere in the family.
+
+    It only ever REPORTS — it never downloads or replaces itself, because a
+    running bundle cannot safely overwrite its own files. The check runs once a
+    day at most and is capped at three seconds, so a slow or absent network
+    barely shows. The tag and the day it was fetched are kept in
+    ~/.pixprotransform_defaults. Versions are compared as integers, so 3.10.0
+    counts as newer than 3.9.0 rather than older.
 
 
 -----------------------------------------------------------------------------
