@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Notarization requires the hardened runtime, and the hardened runtime
+	     blocks an app from sending Apple events to other applications unless
+	     it holds this entitlement. PixProTransform's whole job is driving
+	     Pixelmator Pro and System Events, so without this it would be signed,
+	     notarized, and unable to do anything.
+
+	     Nothing else belongs here. The CPython entitlements used by the
+	     Python-based PixPro apps (JIT, unsigned executable memory, library
+	     validation) are irrelevant to an osacompile applet. -->
+	<key>com.apple.security.automation.apple-events</key>
+	<true/>
+</dict>
+</plist>
