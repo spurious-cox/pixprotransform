@@ -74,6 +74,11 @@ d.pop("CFBundleIconName", None)
 plistlib.dump(d, open(p, "wb"))
 PY
 
+# The applet stub is copied from THIS machine by osacompile, so it carries
+# this system's minimum macOS. Stamped back before signing — codesign seals
+# whatever it finds. See ~/bin/pixpro_lower_min.
+~/bin/pixpro_lower_min "$APP"
+
 echo "==> signing with Developer ID ($SIGN_ID)"
 codesign --force --deep --timestamp --options runtime \
     --entitlements "$ENTS" --sign "$SIGN_ID" "$APP"
