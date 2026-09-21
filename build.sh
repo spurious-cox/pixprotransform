@@ -29,6 +29,11 @@ cd "${0:A:h}"
 SIGN_ID="4208ABA3EC12F24C1F09C7BB624EFF68B44259DB"   # Developer ID Application
 ENTS="pixprotransform.entitlements"
 APP="PixProTransform.app"
+# Read from the script itself, so the bundle can never claim a version the
+# code does not. Hard-coding it here shipped an app whose dialogs and whose
+# Get Info disagreed.
+VERSION=$(/usr/bin/sed -n 's/^property scriptVersion : "\(.*\)"/\1/p' PixProTransform.applescript)
+[[ -n "$VERSION" ]] || { echo "error: no scriptVersion in PixProTransform.applescript" >&2; exit 1; }
 
 if ! security find-identity -p codesigning | grep -q "$SIGN_ID"; then
     echo "error: signing identity $SIGN_ID not in keychain (renewed cert?)" >&2
@@ -50,16 +55,17 @@ rm -f "$APP/Contents/Resources/applet.icns"
 rm -f "$APP/Contents/Resources/Assets.car"
 
 echo "==> restoring bundle identity (osacompile drops it)"
-/usr/bin/python3 - "$APP" <<'PY'
+/usr/bin/python3 - "$APP" "$VERSION" <<'PY'
 import plistlib, sys
 p = sys.argv[1] + "/Contents/Info.plist"
+version = sys.argv[2]
 d = plistlib.load(open(p, "rb"))
 d.update({
     "CFBundleName": "PixProTransform",
     "CFBundleDisplayName": "PixProTransform",
     "CFBundleIdentifier": "com.timmccoy.pixprotransform",
-    "CFBundleShortVersionString": "1.3.0",
-    "CFBundleVersion": "1.3.0",
+    "CFBundleShortVersionString": version,
+    "CFBundleVersion": version,
     "NSHumanReadableCopyright": "Copyright © 2026 Tim McCoy. All rights reserved.",
     "CFBundleGetInfoString":
         "PixProTransform — opens Pixelmator Pro's Perspective Transform in one step.",
