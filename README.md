@@ -1,4 +1,4 @@
-# PixProTransform
+# PixProTransform 1.3.3
 
 Opens Pixelmator Pro's Perspective Transform in one step, instead of the trip
 through Format → Effects → Other → Perspective Transform.
@@ -11,9 +11,6 @@ or install it with Homebrew:
 ```
 brew install --cask spurious-cox/tap/pixprotransform
 ```
-
-*1.3.3 fixes a first run that could hang with nothing on screen, and makes the version in its dialogs match the app again.*
-
 Requires Pixelmator Pro. Both the 3.x build and the Creator Studio build work;
 the app binds to whichever one is in front or has a document open.
 
