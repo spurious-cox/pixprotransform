@@ -1,4 +1,4 @@
-# PixProTransform 1.3.3
+# PixProTransform 1.3.4
 
 Opens Pixelmator Pro's Perspective Transform in one step, instead of the trip
 through Format → Effects → Other → Perspective Transform.
