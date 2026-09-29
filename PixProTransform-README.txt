@@ -9,8 +9,8 @@ Pixelmator Pro's AppleScript dictionary does not expose that effect, so the
 only way in is to click the menu item. Everything below follows from that.
 
 App:     /Applications/PixProTransform.app
-Source:  ~/My_Applications/PixProTransform/PixProTransform.applescript
-Rebuild: ~/My_Applications/PixProTransform/build.sh
+Source:  PixProTransform.applescript in this repository
+Rebuild: build.sh in this repository
 
 
 -----------------------------------------------------------------------------
@@ -82,32 +82,13 @@ The app reports the underlying error rather than failing silently.
 
 
 -----------------------------------------------------------------------------
- THE OLDER ROUTE, STILL INSTALLED
------------------------------------------------------------------------------
-
-The same action already exists as a Quick Action, and this app does not
-replace or disturb it:
-
-    /Applications/PixProTransformer.scpt
-        an Automator Quick Action bundle, despite the .scpt name
-    ~/Library/Services/PixProTransform.workflow
-        an alias pointing at it
-
-The original compiled script it was built from is at
-/Applications/PixProTransform.applescript — also despite its name, that file
-is compiled, not text, which is why opening it in an editor shows gibberish.
-Use `osadecompile` to read it. It is superseded by the source in this folder.
-
-
------------------------------------------------------------------------------
  REBUILDING
 -----------------------------------------------------------------------------
 
-    cd ~/My_Applications/PixProTransform
     ./build.sh
 
 That compiles the source, restores the bundle identity and version, signs
-with the Apple Development certificate, and installs to /Applications.
+with Developer ID, and installs to /Applications.
 
 Signing uses the certificate's SHA-1 hash rather than its name: the expired
 2023 certificate is still in the keychain under an identical name, and
