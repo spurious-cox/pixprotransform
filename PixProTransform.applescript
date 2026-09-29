@@ -29,7 +29,7 @@
 
 property kBundleIDs : {"com.apple.pixelmator", "com.pixelmatorteam.pixelmator.x"}
 
-property scriptVersion : "1.3.4"
+property scriptVersion : "1.3.5"
 
 -- ============================================================
 -- UPDATE CHECK (reports only, never downloads)
@@ -156,6 +156,19 @@ on runningPixelmator()
 			if item 2 of c is fpid then return c
 		end repeat
 	end try
+	-- No Pixelmator in front (this app is, when started from the Finder or
+	-- the Dock): take the first one with a document open. With two builds
+	-- running, the first one found may have none, and its greyed-out
+	-- Effects menu would swallow the click without an error.
+	repeat with c in candidates
+		try
+			using terms from application "Pixelmator Pro"
+				tell application (item 1 of c)
+					if (count of documents) > 0 then return c
+				end tell
+			end using terms from
+		end try
+	end repeat
 	return item 1 of candidates
 end runningPixelmator
 
