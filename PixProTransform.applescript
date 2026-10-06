@@ -29,7 +29,7 @@
 
 property kBundleIDs : {"com.apple.pixelmator", "com.pixelmatorteam.pixelmator.x"}
 
-property scriptVersion : "1.3.5"
+property scriptVersion : "1.3.6"
 
 -- ============================================================
 -- UPDATE CHECK (reports only, never downloads)

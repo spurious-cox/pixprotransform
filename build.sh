@@ -50,6 +50,9 @@ echo "==> installing the icon"
 # the source of the icon is obvious in the bundle.
 cp icon/PixProTransform.icns "$APP/Contents/Resources/PixProTransform.icns"
 rm -f "$APP/Contents/Resources/applet.icns"
+# The help Flache and the Read Me button open: <App>-README.txt in Resources,
+# made from README.md so there is one source.
+/usr/bin/python3 "$HOME/My_Applications/_signing/pixpro_readme_txt.py" README.md "$APP/Contents/Resources/PixProTransform-README.txt"
 # Assets.car only carries the stock applet icon; with CFBundleIconName removed
 # below it is dead weight, and leaving it invites the old icon back.
 rm -f "$APP/Contents/Resources/Assets.car"
