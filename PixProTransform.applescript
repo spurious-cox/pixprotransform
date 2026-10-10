@@ -29,7 +29,7 @@
 
 property kBundleIDs : {"com.apple.pixelmator", "com.pixelmatorteam.pixelmator.x"}
 
-property scriptVersion : "1.3.6"
+property scriptVersion : "1.3.7"
 
 -- ============================================================
 -- UPDATE CHECK (reports only, never downloads)
@@ -140,7 +140,8 @@ on runningPixelmator()
 	end repeat
 	if candidates is {} then return missing value
 
-	-- Frontmost wins, so the effect opens in the window on screen.
+	-- The topmost Pixelmator window wins (v1.3.7), so the effect opens in the build
+	-- on screen even when this applet is itself frontmost.
 	try
 		-- Bounded: asking System Events which app is frontmost needs Automation
 		-- permission, and on a first run that call sits there waiting for a
@@ -149,7 +150,7 @@ on runningPixelmator()
 		-- frontmost check only orders the candidates, it does not find them.
 		with timeout of 5 seconds
 			tell application "System Events"
-				set fpid to (unix id of (first application process whose frontmost is true)) as text
+				set fpid to (my topPixelmatorPID(unix id of (first application process whose frontmost is true))) as text
 			end tell
 		end timeout
 		repeat with c in candidates
@@ -214,3 +215,28 @@ on run
 			with title "PixProTransform " & scriptVersion
 	end if
 end run
+
+
+-- ============================================================
+-- TOPMOST PIXELMATOR (v1.3.7, 2026-10-10)
+-- ============================================================
+-- Which Pixelmator Pro the person is looking at. "Frontmost application" is
+-- no help when this applet was started from Stache, Flache or the Dock,
+-- because the applet itself is then frontmost. The window list is ordered
+-- front to back, so the first Pixelmator Pro window in it belongs to the build
+-- on top. Visible windows are tried first, then all windows (a build on
+-- another Space). Reading owner pid, name and size needs no Screen Recording
+-- permission. Falls back to `fallback` when nothing is found.
+on topPixelmatorPID(fallback)
+	set js to "ObjC.import(\"CoreGraphics\");" & ¬
+		"function top(o){var l=ObjC.deepUnwrap(ObjC.castRefToObject($.CGWindowListCopyWindowInfo(o,0)));" & ¬
+		"for(var i=0;i<l.length;i++){var w=l[i];" & ¬
+		"if(w.kCGWindowOwnerName==\"Pixelmator Pro\"&&w.kCGWindowLayer==0&&w.kCGWindowBounds.Height>100)return w.kCGWindowOwnerPID;}" & ¬
+		"return \"\";}" & ¬
+		"var r=top(17);if(r===\"\")r=top(16);r"
+	try
+		set r to do shell script "/usr/bin/osascript -l JavaScript -e " & quoted form of js
+		if r is not "" then return r as integer
+	end try
+	return fallback
+end topPixelmatorPID
